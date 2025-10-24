@@ -16,10 +16,12 @@ function Simon() {
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [isPlayerTurn, setIsPlayerTurn] = useState(false);
   const [gameTurnWon, setGameTurnWon] = useState(0);
+  const [score, setScore] = useState(0);
 
   const startSimon = useCallback(() => {
     setIsGameRunning(true);
     setGameTurnWon(0);
+    setScore(0);
     const firstColor = colors[Math.floor(Math.random() * colors.length)];
     setColorsSequence([firstColor]);
     setColorIndex(0);
@@ -27,7 +29,7 @@ function Simon() {
   }, []);
 
   useEffect(() => {
-    if (!("Notification" in window)) {
+    if (!("Notification" in globalThis)) {
       console.log("This browser does not support notifications.");
       return;
     }
@@ -67,7 +69,8 @@ function Simon() {
   useEffect(() => {
     if (colorsSequence.length > 0) {
       if (colorIndex === colorsSequence.length) {
-        setGameTurnWon(gameTurnWon + 1);
+        setGameTurnWon((prev) => prev + 1);
+        setScore((prev) => prev + 1);
         setColorsSequence((prevSequence) => [
           ...prevSequence,
           colors[Math.floor(Math.random() * colors.length)],
@@ -88,7 +91,24 @@ function Simon() {
         setColorIndex(colorIndex + 1);
       } else {
         setIsGameRunning(false);
-        const text = `Ton score est de : ${gameTurnWon} Pour rejouer, clique sur "Démarrer une partie"`;
+        // Save the score to localStorage as a list
+        try {
+          const key = "scores";
+          const raw = localStorage.getItem(key);
+          const list = raw ? JSON.parse(raw) : [];
+          const normalized = Array.isArray(list) ? list : [];
+          const entry = { score, date: new Date().toISOString() };
+          console.log("Saving score entry", entry);
+          normalized.push(entry);
+          localStorage.setItem(key, JSON.stringify(normalized));
+          // Notify other components in the same window to refresh rankings
+          // Notify other components in the same window to refresh rankings
+          globalThis.dispatchEvent(new Event("scoresUpdated"));
+        } catch (e) {
+          console.error("Failed to save score to localStorage", e);
+        }
+
+        const text = `Ton score est de : ${score} Pour rejouer, clique sur "Démarrer une partie"`;
         if (notificationGranted) {
           navigator.serviceWorker.ready.then((registration) => {
             registration.showNotification("Perdu !", {
