@@ -10,7 +10,6 @@
   }
 
   .startButton {
-    background: #f0f0f0;
     border: none;
     margin-top: 20px;
     padding: 6px 10px;
@@ -18,10 +17,6 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: 0.2s ease-in-out;
-
-    &:hover {
-      background: #dadada;
-    }
   }
 
   .textGame {
@@ -35,45 +30,17 @@
 }
 
 .red {
-  background-color: #941414;
-  border-radius: 199px 10px 10px 10px;
   cursor: pointer;
-
-  &.active {
-    background-color: #e22a2a;
-    box-shadow: 0 0 15px rgba(226, 42, 42, 0.8);
-  }
 }
 
 .blue {
-  background-color: #105348;
-  border-radius: 10px 199px 10px 10px;
   cursor: pointer;
-
-  &.active {
-    background-color: #21a892;
-    box-shadow: 0 0 15px rgba(33, 168, 146, 0.8);
-  }
 }
 
 .green {
-  background-color: #21540d;
-  border-radius: 10px 10px 10px 199px;
   cursor: pointer;
-
-  &.active {
-    background-color: #44ac1b;
-    box-shadow: 0 0 15px rgba(68, 172, 27, 0.8);
-  }
 }
 
 .yellow {
-  background-color: #b9a700;
-  border-radius: 10px 10px 199px 10px;
   cursor: pointer;
-
-  &.active {
-    background-color: #ffe920;
-    box-shadow: 0 0 15px rgba(255, 233, 32, 0.8);
-  }
 }
