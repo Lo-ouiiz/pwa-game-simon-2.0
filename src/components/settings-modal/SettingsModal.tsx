@@ -53,7 +53,7 @@ function SettingsModal({
   const deleteScoreHandle = () => {
     localStorage.removeItem("scores");
     navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification("Perdu !", {
+      registration.showNotification("Scores supprimés !", {
         body: "Scores supprimés avec succès !",
       });
     });
