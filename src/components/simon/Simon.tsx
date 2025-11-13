@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Tile from "./tile/Tile";
 import "./Simon.scss";
-import { Color, Theme, themes, ThemeColors } from "../../variables/themes";
+import { Color, Theme, themes, Mode } from "../../variables/themes";
 import victorySound from "../../assets/sounds/victory.mp3";
 import gameOverSound from "../../assets/sounds/gameover.mp3";
 import redSound from "../../assets/sounds/red.mp3";
@@ -11,12 +11,14 @@ import yellowSound from "../../assets/sounds/yellow.mp3";
 
 interface SimonProps {
   theme: Theme;
+  mode: Mode;
+  soundsEnabled: boolean;
 }
 
 const colors: Color[] = ["red", "blue", "green", "yellow"];
 
-function Simon({ theme }: SimonProps) {
-  const themeColors: ThemeColors = themes[theme];
+function Simon({ theme, mode, soundsEnabled }: SimonProps) {
+  const themeColors = themes[theme][mode];
 
   const [notificationGranted, setNotificationGranted] = useState(false);
 
@@ -38,6 +40,7 @@ function Simon({ theme }: SimonProps) {
     };
 
     const playSound = (soundPath: string) => {
+        if (!soundsEnabled) return;
         const audio = new Audio(soundPath);
         audio.play();
     };
@@ -132,7 +135,7 @@ function Simon({ theme }: SimonProps) {
                 }
             }
         },
-        [colorIndex, colorsSequence, notificationGranted, gameTurnWon]
+        [colorIndex, colorsSequence, notificationGranted, gameTurnWon, soundsEnabled]
     );
 
   return (
