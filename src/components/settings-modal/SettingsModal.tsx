@@ -1,6 +1,7 @@
 import { Mode, Theme, themes, ThemeColors } from "../../variables/themes";
 import { X } from "phosphor-react";
 import "./SettingsModal.scss";
+import { useEffect, useState } from "react";
 
 interface SettingsModalProps {
   theme: Theme;
@@ -25,6 +26,20 @@ function SettingsModal({
   soundsEnabled,
   setSoundsEnabled,
 }: Readonly<SettingsModalProps>) {
+  const [notificationGranted, setNotificationGranted] = useState(false);
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support notifications.");
+      return;
+    }
+    Notification.requestPermission().then((result) => {
+      if (result === "granted") {
+        setNotificationGranted(true);
+      }
+    });
+  }, []);
+
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
 
@@ -50,13 +65,16 @@ function SettingsModal({
     setCustomThemeColors(newColors);
   };
 
-  const deleteScoreHandle = () => {
+  const deleteScoreHandle = async () => {
+    const text = "Vos scores ont été supprimés.";
     localStorage.removeItem("scores");
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.showNotification("Scores supprimés !", {
-        body: "Scores supprimés avec succès !",
+    if (notificationGranted) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification("Scores supprimés !", { body: text });
       });
-    });
+    } else {
+      alert("Scores supprimés ! " + text);
+    }
   };
 
   const colorLabels: Record<keyof ThemeColors, string> = {
