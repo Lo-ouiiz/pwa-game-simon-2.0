@@ -20,9 +20,12 @@ function Simon({ theme }: SimonProps) {
   const [isPlayerTurn, setIsPlayerTurn] = useState(false);
   const [gameTurnWon, setGameTurnWon] = useState(0);
 
-  const startSimon = useCallback(() => {
+  const [sequenceSpeed, setSequenceSpeed] = useState(1000);
+
+    const startSimon = useCallback(() => {
     setIsGameRunning(true);
     setGameTurnWon(0);
+    setSequenceSpeed(1000);
     const firstColor = colors[Math.floor(Math.random() * colors.length)];
     setColorsSequence([firstColor]);
     setColorIndex(0);
@@ -36,43 +39,54 @@ function Simon({ theme }: SimonProps) {
     });
   }, []);
 
-  useEffect(() => {
-    if (!isPlayerTurn && colorsSequence.length > 0) {
-      let index = 0;
+    useEffect(() => {
+        if (!isPlayerTurn && colorsSequence.length > 0) {
+            let index = 0;
 
       const showColor = () => {
         if (index < colorsSequence.length) {
           setActiveColor(colorsSequence[index]);
           navigator.vibrate?.(500);
+            const showColor = () => {
+                if (index < colorsSequence.length) {
+                    setActiveColor(colorsSequence[index]);
+                    navigator.vibrate(200);
 
-          setTimeout(() => {
-            setActiveColor(null);
-            index++;
-          }, 500);
+                    setTimeout(() => {
+                        setActiveColor(null);
+                        index++;
+                    }, sequenceSpeed / 1.5);
 
-          setTimeout(() => showColor(), 1000);
-        } else {
-          setIsPlayerTurn(true);
+                    setTimeout(() => {
+                        showColor();
+                    }, sequenceSpeed);
+                } else {
+                    setIsPlayerTurn(true);
+                }
+            };
+
+            showColor();
         }
-      };
-
-      showColor();
-    }
-  }, [colorsSequence, isPlayerTurn]);
+    }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
 
   useEffect(() => {
-    if (colorsSequence.length > 0 && colorIndex === colorsSequence.length) {
-      setGameTurnWon((prev) => prev + 1);
-      setColorsSequence((prev) => [
-        ...prev,
-        colors[Math.floor(Math.random() * colors.length)],
-      ]);
-      setTimeout(() => {
-        setColorIndex(0);
-        setIsPlayerTurn(false);
-      }, 2000);
+    if (colorsSequence.length > 0) {
+      if (colorIndex === colorsSequence.length) {
+        setGameTurnWon(gameTurnWon + 1);
+        setColorsSequence((prevSequence) => [
+          ...prevSequence,
+          colors[Math.floor(Math.random() * colors.length)],
+        ]);
+
+        setSequenceSpeed((prev) => Math.max(400, prev - 100));
+
+        setTimeout(() => {
+          setColorIndex(0);
+          setIsPlayerTurn(false);
+        }, 2000);
+      }
     }
-  }, [colorsSequence, colorIndex]);
+  }, [colorsSequence, colorIndex, gameTurnWon]);
 
   const handleClickButton = useCallback(
     (color: Color) => {
