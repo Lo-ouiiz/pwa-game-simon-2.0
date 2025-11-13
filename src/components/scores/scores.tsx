@@ -139,7 +139,7 @@ export default function Scores({
 
         <div className="modalBody">
           {scores.length === 0 ? (
-            <p>Aucun score enregistré pour le moment.</p>
+            <p style={{ color: themeColors?.text }}>Aucun score enregistré pour le moment.</p>
           ) : (
             <ol className="scoresList">
               {scores.map((s, idx) => {
