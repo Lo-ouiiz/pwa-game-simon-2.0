@@ -37,3 +37,12 @@
     transform: rotate(30deg);
   }
 }
+
+.rankingsButton {
+  border: none;
+  margin-top: 20px;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}

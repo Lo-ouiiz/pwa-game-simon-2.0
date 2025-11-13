@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./scores.scss";
 import { XCircle } from "phosphor-react";
 
@@ -91,16 +91,45 @@ export default function Scores({
     };
   }, [onClose]);
 
+  const cssVars: Record<string, string | undefined> = {
+    ["--bg"]: themeColors?.background,
+    ["--text"]: themeColors?.text,
+    ["--border"]: themeColors?.border ?? themeColors?.text,
+  };
+  // derive RGB components from theme text color (hex) so SCSS can use rgba(var(--text-r),...)
+  const hexToRgb = (hex?: string) => {
+    if (!hex) return null;
+    // remove leading #
+    const h = hex.replace(/^#/, "");
+    if (h.length === 3) {
+      const r = Number.parseInt(h[0] + h[0], 16);
+      const g = Number.parseInt(h[1] + h[1], 16);
+      const b = Number.parseInt(h[2] + h[2], 16);
+      return { r, g, b };
+    }
+    if (h.length === 6 || h.length === 8) {
+      const r = Number.parseInt(h.slice(0, 2), 16);
+      const g = Number.parseInt(h.slice(2, 4), 16);
+      const b = Number.parseInt(h.slice(4, 6), 16);
+      return { r, g, b };
+    }
+    return null;
+  };
+
+  const rgb = hexToRgb(themeColors?.text);
+  cssVars["--text-r"] = String(rgb?.r ?? 17);
+  cssVars["--text-g"] = String(rgb?.g ?? 17);
+  cssVars["--text-b"] = String(rgb?.b ?? 17);
+
   return (
-    <dialog open className="scoresContainer" aria-modal="true" ref={dialogRef}>
-      <div
-        className="modalContent"
-        style={{
-          backgroundColor: themeColors?.background,
-          color: themeColors?.text,
-          borderColor: themeColors?.text,
-        }}
-      >
+    <dialog
+      open
+      className="scoresContainer"
+      aria-modal="true"
+      ref={dialogRef}
+      style={cssVars as React.CSSProperties}
+    >
+      <div className="modalContent">
         <div className="modalHeader">
           <h2>Top 5 - meilleurs scores</h2>
           {onClose && (
@@ -122,9 +151,7 @@ export default function Scores({
                 else if (idx === 2) medal = "🥉";
                 return (
                   <li key={`${s.score}`}>
-                    <strong>
-                      <span className={`medal medal-${idx + 1}`}>{medal}</span>
-                    </strong>
+                    <span className={`medal medal-${idx + 1}`}>{medal}</span>
                     <span className="scoreValue">{s.score}</span>
                   </li>
                 );

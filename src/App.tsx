@@ -3,7 +3,7 @@ import Simon from "./components/simon/Simon";
 import InstallButton from "./components/install-button/InstallButton";
 import { Theme, Mode, themes, ThemeColors } from "./variables/themes";
 import "./App.scss";
-import { Gear, X } from "phosphor-react";
+import { Gear } from "phosphor-react";
 import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
 function App() {
@@ -64,6 +64,11 @@ function App() {
 
       <button
         className="rankingsButton"
+        style={{
+          backgroundColor: themeColors.background,
+          color: themeColors.text,
+          border: `2px solid ${themeColors.text}`,
+        }}
         onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
       >
         Hall of Fame
