@@ -204,11 +204,9 @@ function SettingsModal({
           <button
             onClick={deleteScoreHandle}
             style={{
-              backgroundColor: themeColors.text,
-              color: themeColors.background,
+              backgroundColor: themeColors.background,
+              color: themeColors.text,
               border: `2px solid ${themeColors.text}`,
-              padding: "10px 20px",
-              cursor: "pointer",
             }}
           >
             Supprimer mes scores
