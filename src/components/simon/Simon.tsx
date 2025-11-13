@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
 import Tile from "./tile/Tile";
 import "./Simon.scss";
-import { Color, Theme, themes, ThemeColors } from "../../variables/themes";
-
+import { Color, Theme, themes, Mode } from "../../variables/themes";
 interface SimonProps {
   theme: Theme;
+  mode: Mode;
 }
 
 const colors: Color[] = ["red", "blue", "green", "yellow"];
 
-function Simon({ theme }: SimonProps) {
-  const themeColors: ThemeColors = themes[theme];
+function Simon({ theme, mode }: SimonProps) {
+  const themeColors = themes[theme][mode];
 
   const [notificationGranted, setNotificationGranted] = useState(false);
 
