@@ -12,100 +12,48 @@ function App() {
 
   return (
     <div
+      className="app"
       style={{
         backgroundColor: themeColors.background,
         color: themeColors.text,
-        minHeight: "100vh",
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        position: "relative",
       }}
     >
       <InstallButton />
 
-      <button
-        className="settingsButton"
-        onClick={() => setModalOpen(true)}
-        style={{
-          position: "absolute",
-          top: 10,
-          right: 10,
-          background: "transparent",
-          border: "none",
-          color: themeColors.text,
-          fontSize: "24px",
-          cursor: "pointer",
-        }}
-      >
-        <Gear />
+      <button className="settingsButton" onClick={() => setModalOpen(true)}>
+        <Gear color={themeColors.text} />
       </button>
 
       <Simon theme={theme} />
 
       {modalOpen && (
-        <div className={"modalOverlay"} onClick={() => setModalOpen(false)}>
+        <div className="modalOverlay" onClick={() => setModalOpen(false)}>
           <div
             className="modalContent"
             style={{
               backgroundColor: themeColors.background,
               color: themeColors.text,
-              padding: "20px",
-              borderRadius: "10px",
-              width: "250px",
-              minHeight: "100px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "10px",
+              borderColor: themeColors.text,
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
+            <div className="modalHeader">
               <h2>Paramètres</h2>
               <button
+                className="closeButton"
                 onClick={() => setModalOpen(false)}
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: themeColors.text,
-                  fontSize: "20px",
-                  cursor: "pointer",
-                }}
               >
-                <X weight="bold" />
+                <X color={themeColors.text} weight="bold" />
               </button>
             </div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "10px",
-              }}
-            >
-              <label
-                style={{
-                  fontWeight: "600",
-                }}
-              >
-                Thème du jeu
-              </label>
+
+            <div className="modalBody">
+              <label>Thème du jeu</label>
               <select
                 value={theme}
                 onChange={(e) => setTheme(e.target.value as Theme)}
                 style={{
-                  padding: "6px",
-                  fontSize: "16px",
-                  borderRadius: "5px",
-                  border: `2px solid ${themeColors.text}`,
+                  borderColor: themeColors.text,
                   backgroundColor: themeColors.background,
                   color: themeColors.text,
                 }}

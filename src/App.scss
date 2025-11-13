@@ -11,10 +11,34 @@
   height: 100%;
 }
 
-h2 {
-  margin: 0 0 10px 0;
+.app {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Bouton paramètres */
+.settingsButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: rotate(30deg);
+  }
+}
+
+/* Modal */
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -26,4 +50,52 @@ h2 {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+}
+
+.modalContent {
+  padding: 20px;
+  border-radius: 10px;
+  width: 250px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid currentColor;
+  transition: all 0.3s ease;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  h2 {
+    margin: 0 0 10px 0;
+  }
+
+  .closeButton {
+    background: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
+.modalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  label {
+    font-weight: 600;
+  }
+
+  select {
+    padding: 6px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 2px solid currentColor;
+    transition: background-color 0.3s, color 0.3s;
+  }
 }
