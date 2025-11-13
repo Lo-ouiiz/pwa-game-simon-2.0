@@ -6,7 +6,6 @@ body {
   display: flex;
   place-items: center;
   width: 100vw;
-  min-height: 100vh;
 }
 
 button {

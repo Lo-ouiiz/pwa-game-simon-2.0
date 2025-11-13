@@ -7,10 +7,15 @@
   align-items: center;
   gap: 10px;
   padding: 10px;
-  position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  position: sticky;
+  width: 100%;
+
+  p {
+    padding: 8px;
+  }
 }
 
 .rootHidden {

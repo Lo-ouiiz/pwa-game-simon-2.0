@@ -3,7 +3,7 @@ import Simon from "./components/simon/Simon";
 import InstallButton from "./components/install-button/InstallButton";
 import { Theme, Mode, themes, ThemeColors } from "./variables/themes";
 import "./App.scss";
-import { Gear } from "phosphor-react";
+import { Gear, Trophy } from "phosphor-react";
 import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
 function App() {
@@ -39,12 +39,31 @@ function App() {
     >
       <InstallButton />
 
-      <button
-        className="settingsButton"
-        onClick={() => setModalSettingsOpen(true)}
-      >
-        <Gear color={themeColors.text} />
-      </button>
+      <div className="menu">
+        <button
+          className="rankingsButton"
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+            border: `2px solid ${themeColors.text}`,
+          }}
+          onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
+        >
+          <Trophy size={32} />
+        </button>
+        {rankingsModalOpen && (
+          <Scores
+            onClose={() => setRankingsModalOpen(false)}
+            themeColors={themeColors}
+          />
+        )}
+        <button
+          className="settingsButton"
+          onClick={() => setModalSettingsOpen(true)}
+        >
+          <Gear color={themeColors.text} />
+        </button>
+      </div>
 
       <Simon themeColors={themeColors} soundsEnabled={soundsEnabled} />
 
@@ -59,24 +78,6 @@ function App() {
           setModalSettingsOpen={setModalSettingsOpen}
           soundsEnabled={soundsEnabled}
           setSoundsEnabled={setSoundsEnabled}
-        />
-      )}
-
-      <button
-        className="rankingsButton"
-        style={{
-          backgroundColor: themeColors.background,
-          color: themeColors.text,
-          border: `2px solid ${themeColors.text}`,
-        }}
-        onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
-      >
-        Hall of Fame
-      </button>
-      {rankingsModalOpen && (
-        <Scores
-          onClose={() => setRankingsModalOpen(false)}
-          themeColors={themeColors}
         />
       )}
     </div>

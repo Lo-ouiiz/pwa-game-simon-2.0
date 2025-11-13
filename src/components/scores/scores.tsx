@@ -96,10 +96,8 @@ export default function Scores({
     ["--text"]: themeColors?.text,
     ["--border"]: themeColors?.border ?? themeColors?.text,
   };
-  // derive RGB components from theme text color (hex) so SCSS can use rgba(var(--text-r),...)
   const hexToRgb = (hex?: string) => {
     if (!hex) return null;
-    // remove leading #
     const h = hex.replace(/^#/, "");
     if (h.length === 3) {
       const r = Number.parseInt(h[0] + h[0], 16);
@@ -152,7 +150,7 @@ export default function Scores({
                 return (
                   <li key={`${s.score}`}>
                     <span className={`medal medal-${idx + 1}`}>{medal}</span>
-                    <span className="scoreValue">{s.score}</span>
+                    <span className="scoreValue">{s.score} {s.score > 1 ? "points" : "point"}</span>
                   </li>
                 );
               })}

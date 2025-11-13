@@ -113,12 +113,27 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
       } else {
         playSound(gameOverSound);
         setIsGameRunning(false);
-        const text = `Ton score est de : ${gameTurnWon} Pour rejouer, clique sur "Démarrer une partie"`;
+        try {
+          const key = "scores";
+          const raw = localStorage.getItem(key);
+          const list = raw ? JSON.parse(raw) : [];
+          const normalized = Array.isArray(list) ? list : [];
+          const entry = { score: gameTurnWon, date: new Date().toISOString() };
+          normalized.push(entry);
+          localStorage.setItem(key, JSON.stringify(normalized));
+          try {
+            globalThis.dispatchEvent(new Event("scoresUpdated"));
+          } catch (e) {
+            console.error("Failed to dispatch scoresUpdated", e);
+          }
+        } catch (e) {
+          console.error("Failed to save score to localStorage", e);
+        }
+
+        const text = `Ton score est de : ${gameTurnWon}. Pour rejouer, clique sur "Démarrer une partie"`;
         if (notificationGranted) {
           navigator.serviceWorker.ready.then((registration) => {
-            registration.showNotification("Perdu !", {
-              body: text,
-            });
+            registration.showNotification("Perdu !", { body: text });
           });
         } else {
           alert("Perdu ! " + text);
@@ -130,6 +145,8 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
       colorsSequence,
       notificationGranted,
       gameTurnWon,
+      colorSounds,
+      playSound,
       soundsEnabled,
     ]
   );
