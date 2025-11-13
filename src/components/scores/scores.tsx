@@ -1,13 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import "./scores.scss";
+import { XCircle } from "phosphor-react";
 
 type ScoreEntry = {
   score: number;
   date?: string;
 };
 
-export default function Scores() {
+type ThemeColors = {
+  background?: string;
+  text?: string;
+  border?: string;
+};
+
+type ScoresProps = {
+  onClose?: () => void;
+  themeColors?: ThemeColors;
+};
+
+export default function Scores({
+  onClose,
+  themeColors,
+}: Readonly<ScoresProps>) {
   const [scores, setScores] = useState<ScoreEntry[]>([]);
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
 
   const loadScores = useCallback(() => {
     try {
@@ -26,7 +42,6 @@ export default function Scores() {
         return 0;
       });
 
-      // Garder uniquement les scores distincts (par valeur) et limiter à 5
       const unique: ScoreEntry[] = [];
       const seen = new Set<number>();
       for (const item of list) {
@@ -55,32 +70,69 @@ export default function Scores() {
       globalThis.removeEventListener("scoresUpdated", onScoresUpdated);
   }, [loadScores]);
 
+  useEffect(() => {
+    const dlg = dialogRef.current;
+    if (!dlg) return;
+
+    const onClick = (e: MouseEvent) => {
+      if (e.target === dlg && onClose) onClose();
+    };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && onClose) onClose();
+    };
+
+    dlg.addEventListener("click", onClick);
+    document.addEventListener("keydown", onKey);
+
+    return () => {
+      dlg.removeEventListener("click", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [onClose]);
 
   return (
-    <div className="scoresContainer">
-      <h2>Top 5 — tes meilleurs scores</h2>
-      {scores.length === 0 ? (
-        <p>Aucun score enregistré pour le moment.</p>
-      ) : (
-        <ol>
-          {scores.map((s, idx) => {
-            let medal: string | null = (idx + 1).toString();
-            if (idx === 0) medal = "🥇";
-            else if (idx === 1) medal = "🥈";
-            else if (idx === 2) medal = "🥉";
-            return (
-              <li key={`${s.score}`}>
-                <strong>
-                  {medal ? (
-                    <span className={`medal medal-${idx + 1}`}>{medal}</span>
-                  ) : null}
-                  <span className="scoreValue">{s.score}</span>
-                </strong>
-              </li>
-            );
-          })}
-        </ol>
-      )}
-    </div>
+    <dialog open className="scoresContainer" aria-modal="true" ref={dialogRef}>
+      <div
+        className="modalContent"
+        style={{
+          backgroundColor: themeColors?.background,
+          color: themeColors?.text,
+          borderColor: themeColors?.text,
+        }}
+      >
+        <div className="modalHeader">
+          <h2>Top 5 - meilleurs scores</h2>
+          {onClose && (
+            <button className="closeButton" onClick={onClose}>
+              <XCircle size={32} />
+            </button>
+          )}
+        </div>
+
+        <div className="modalBody">
+          {scores.length === 0 ? (
+            <p>Aucun score enregistré pour le moment.</p>
+          ) : (
+            <ol className="scoresList">
+              {scores.map((s, idx) => {
+                let medal: string | null = idx.toString();
+                if (idx === 0) medal = "🥇";
+                else if (idx === 1) medal = "🥈";
+                else if (idx === 2) medal = "🥉";
+                return (
+                  <li key={`${s.score}`}>
+                    <strong>
+                      <span className={`medal medal-${idx + 1}`}>{medal}</span>
+                    </strong>
+                    <span className="scoreValue">{s.score}</span>
+                  </li>
+                );
+              })}
+            </ol>
+          )}
+        </div>
+      </div>
+    </dialog>
   );
 }

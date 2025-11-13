@@ -3,14 +3,15 @@ import Simon from "./components/simon/Simon";
 import InstallButton from "./components/install-button/InstallButton";
 import { Theme, Mode, themes, ThemeColors } from "./variables/themes";
 import "./App.scss";
-import { Gear } from "phosphor-react";
+import { Gear, X } from "phosphor-react";
+import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
-
 function App() {
   const [theme, setTheme] = useState<Theme>("classic");
   const [mode, setMode] = useState<Mode>("light");
   const [modalSettingsOpen, setModalSettingsOpen] = useState(false);
   const [soundsEnabled, setSoundsEnabled] = useState(true);
+  const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
 
   const [customThemeColors, setCustomThemeColors] = useState<ThemeColors>({
     red: "#941414",
@@ -58,6 +59,19 @@ function App() {
           setModalSettingsOpen={setModalSettingsOpen}
           soundsEnabled={soundsEnabled}
           setSoundsEnabled={setSoundsEnabled}
+        />
+      )}
+
+      <button
+        className="rankingsButton"
+        onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
+      >
+        Hall of Fame
+      </button>
+      {rankingsModalOpen && (
+        <Scores
+          onClose={() => setRankingsModalOpen(false)}
+          themeColors={themeColors}
         />
       )}
     </div>
