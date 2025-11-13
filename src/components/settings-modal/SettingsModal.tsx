@@ -65,9 +65,10 @@ function SettingsModal({
     setCustomThemeColors(newColors);
   };
 
-  const deleteScoreHandle = async () => {
+  const deleteCache = async () => {
     const text = "Vos scores ont été supprimés.";
     localStorage.removeItem("scores");
+    localStorage.removeItem("completedObjectives");
     if (notificationGranted) {
       navigator.serviceWorker.ready.then((registration) => {
         registration.showNotification("Scores supprimés !", { body: text });
@@ -220,14 +221,14 @@ function SettingsModal({
 
         <div className="modalBody">
           <button
-            onClick={deleteScoreHandle}
+            onClick={deleteCache}
             style={{
               backgroundColor: themeColors.background,
               color: themeColors.text,
               border: `2px solid ${themeColors.text}`,
             }}
           >
-            Supprimer mes scores
+            Supprimer mes données
           </button>
         </div>
       </div>
