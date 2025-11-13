@@ -2,49 +2,70 @@ import { useCallback, useEffect, useState } from "react";
 import Tile from "./tile/Tile";
 import "./Simon.scss";
 import { Color, Theme, themes, Mode } from "../../variables/themes";
+import victorySound from "../../assets/sounds/victory.mp3";
+import gameOverSound from "../../assets/sounds/gameover.mp3";
+import redSound from "../../assets/sounds/red.mp3";
+import blueSound from "../../assets/sounds/blue.mp3";
+import greenSound from "../../assets/sounds/green.mp3";
+import yellowSound from "../../assets/sounds/yellow.mp3";
+
 interface SimonProps {
   theme: Theme;
   mode: Mode;
+  soundsEnabled: boolean;
 }
 
 const colors: Color[] = ["red", "blue", "green", "yellow"];
 
-function Simon({ theme, mode }: SimonProps) {
+function Simon({ theme, mode, soundsEnabled }: SimonProps) {
   const themeColors = themes[theme][mode];
 
   const [notificationGranted, setNotificationGranted] = useState(false);
 
-  const [colorsSequence, setColorsSequence] = useState<Color[]>([]);
-  const [colorIndex, setColorIndex] = useState(0);
-  const [activeColor, setActiveColor] = useState<Color | null>(null);
+    const [colorsSequence, setColorsSequence] = useState<Color[]>([]);
+    const [colorIndex, setColorIndex] = useState(0);
+    const [activeColor, setActiveColor] = useState<Color | null>(null);
 
-  const [isGameRunning, setIsGameRunning] = useState(false);
-  const [isPlayerTurn, setIsPlayerTurn] = useState(false);
-  const [gameTurnWon, setGameTurnWon] = useState(0);
+    const [isGameRunning, setIsGameRunning] = useState(false);
+    const [isPlayerTurn, setIsPlayerTurn] = useState(false);
+    const [gameTurnWon, setGameTurnWon] = useState(0);
 
-  const [sequenceSpeed, setSequenceSpeed] = useState(1000);
+    const [sequenceSpeed, setSequenceSpeed] = useState(1000);
 
-  const startSimon = useCallback(() => {
-    setIsGameRunning(true);
-    setGameTurnWon(0);
-    setSequenceSpeed(1000);
-    const firstColor = colors[Math.floor(Math.random() * colors.length)];
-    setColorsSequence([firstColor]);
-    setColorIndex(0);
-    setIsPlayerTurn(false);
-  }, []);
+    const colorSounds: Record<Color, string> = {
+        red: redSound,
+        blue: blueSound,
+        green: greenSound,
+        yellow: yellowSound,
+    };
 
-  useEffect(() => {
-    if (!("Notification" in window)) {
-      console.log("This browser does not support notifications.");
-      return;
-    }
-    Notification.requestPermission().then((result) => {
-      if (result === "granted") {
-        setNotificationGranted(true);
-      }
-    });
-  }, []);
+    const playSound = (soundPath: string) => {
+        if (!soundsEnabled) return;
+        const audio = new Audio(soundPath);
+        audio.play();
+    };
+
+    const startSimon = useCallback(() => {
+        setIsGameRunning(true);
+        setGameTurnWon(0);
+        setSequenceSpeed(1000);
+        const firstColor = colors[Math.floor(Math.random() * colors.length)];
+        setColorsSequence([firstColor]);
+        setColorIndex(0);
+        setIsPlayerTurn(false);
+    }, []);
+
+    useEffect(() => {
+        if (!("Notification" in window)) {
+            console.log("This browser does not support notifications.");
+            return;
+        }
+        Notification.requestPermission().then((result) => {
+            if (result === "granted") {
+                setNotificationGranted(true);
+            }
+        });
+    }, []);
 
   useEffect(() => {
     if (!isPlayerTurn && colorsSequence.length > 0) {
@@ -72,45 +93,50 @@ function Simon({ theme, mode }: SimonProps) {
     }
   }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
 
-  useEffect(() => {
-    if (colorsSequence.length > 0) {
-      if (colorIndex === colorsSequence.length) {
-        setGameTurnWon(gameTurnWon + 1);
-        setColorsSequence((prevSequence) => [
-          ...prevSequence,
-          colors[Math.floor(Math.random() * colors.length)],
-        ]);
+    useEffect(() => {
+        if (colorsSequence.length > 0) {
+            if (colorIndex === colorsSequence.length) {
+                playSound(victorySound);
+                setGameTurnWon(gameTurnWon + 1);
+                setColorsSequence((prevSequence) => [
+                    ...prevSequence,
+                    colors[Math.floor(Math.random() * colors.length)],
+                ]);
 
-        setSequenceSpeed((prev) => Math.max(400, prev - 100));
+                setSequenceSpeed((prev) => Math.max(400, prev - 100));
 
-        setTimeout(() => {
-          setColorIndex(0);
-          setIsPlayerTurn(false);
-        }, 2000);
-      }
-    }
-  }, [colorsSequence, colorIndex, gameTurnWon]);
-
-  const handleClickButton = useCallback(
-    (color: Color) => {
-      navigator.vibrate(500);
-
-      if (colorsSequence[colorIndex] === color) {
-        setColorIndex((prev) => prev + 1);
-      } else {
-        setIsGameRunning(false);
-        const text = `Ton score est de : ${gameTurnWon}. Pour rejouer, clique sur "Démarrer une partie"`;
-        if (notificationGranted) {
-          navigator.serviceWorker.ready.then((registration) => {
-            registration.showNotification("Perdu !", { body: text });
-          });
-        } else {
-          alert("Perdu ! " + text);
+                setTimeout(() => {
+                    setColorIndex(0);
+                    setIsPlayerTurn(false);
+                }, 2000);
+            }
         }
-      }
-    },
-    [colorIndex, colorsSequence, notificationGranted, gameTurnWon]
-  );
+    }, [colorsSequence, colorIndex, gameTurnWon]);
+
+    const handleClickButton = useCallback(
+        (color: Color) => {
+            playSound(colorSounds[color]);
+            navigator.vibrate(500);
+
+            if (colorsSequence[colorIndex] === color) {
+                setColorIndex(colorIndex + 1);
+            } else {
+                playSound(gameOverSound);
+                setIsGameRunning(false);
+                const text = `Ton score est de : ${gameTurnWon} Pour rejouer, clique sur "Démarrer une partie"`;
+                if (notificationGranted) {
+                    navigator.serviceWorker.ready.then((registration) => {
+                        registration.showNotification("Perdu !", {
+                            body: text,
+                        });
+                    });
+                } else {
+                    alert("Perdu ! " + text);
+                }
+            }
+        },
+        [colorIndex, colorsSequence, notificationGranted, gameTurnWon, soundsEnabled]
+    );
 
   return (
     <div className="mainContainer">

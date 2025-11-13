@@ -10,6 +10,7 @@ function App() {
   const [theme, setTheme] = useState<Theme>("classic");
   const [mode, setMode] = useState<Mode>("light");
   const [modalSettingsOpen, setModalSettingsOpen] = useState(false);
+  const [soundsEnabled, setSoundsEnabled] = useState(true);
 
   const themeColors = themes[theme][mode];
 
@@ -30,16 +31,18 @@ function App() {
         <Gear color={themeColors.text} />
       </button>
 
-      <Simon theme={theme} mode={mode} />
+        <Simon theme={theme} mode={mode} soundsEnabled={soundsEnabled} />
 
-      {modalSettingsOpen && (
-        <SettingsModal
-          theme={theme}
-          mode={mode}
-          setTheme={setTheme}
-          setMode={setMode}
-          setModalSettingsOpen={setModalSettingsOpen}
-        />
+        {modalSettingsOpen && (
+            <SettingsModal
+                theme={theme}
+                mode={mode}
+                setTheme={setTheme}
+                setMode={setMode}
+                setModalSettingsOpen={setModalSettingsOpen}
+                soundsEnabled={soundsEnabled}
+                setSoundsEnabled={setSoundsEnabled}
+            />
       )}
     </div>
   );

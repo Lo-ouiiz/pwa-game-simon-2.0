@@ -8,6 +8,8 @@ interface SettingsModalProps {
   setTheme: (theme: Theme) => void;
   setMode: (mode: Mode) => void;
   setModalSettingsOpen: (open: boolean) => void;
+  soundsEnabled: boolean;
+  setSoundsEnabled: (enabled: boolean) => void;
 }
 
 function SettingsModal({
@@ -16,6 +18,8 @@ function SettingsModal({
   setTheme,
   setMode,
   setModalSettingsOpen,
+  soundsEnabled,
+  setSoundsEnabled,
 }: SettingsModalProps) {
   const themeColors = themes[theme][mode];
 
@@ -84,6 +88,32 @@ function SettingsModal({
             <span>{mode === "dark" ? "Sombre" : "Clair"}</span>
           </div>
         </div>
+          <div className="modalBody">
+              <label>Effets sonores</label>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                  <div
+                      className="switch"
+                      onClick={() => setSoundsEnabled(!soundsEnabled)}
+                      style={{
+                          backgroundColor: soundsEnabled
+                              ? themeColors.text
+                              : themeColors.background,
+                          border: `2px solid ${themeColors.text}`,
+                      }}
+                  >
+                      <div
+                          className="switch-thumb"
+                          style={{
+                              backgroundColor: soundsEnabled
+                                  ? themeColors.background
+                                  : themeColors.text,
+                              transform: soundsEnabled ? "translateX(20px)" : "translateX(0)",
+                          }}
+                      />
+                  </div>
+                  <span>{soundsEnabled ? "Activés" : "Désactivés"}</span>
+              </div>
+          </div>
       </div>
     </div>
   );
