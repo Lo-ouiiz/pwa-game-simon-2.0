@@ -41,23 +41,18 @@ function App() {
 
       <div className="menu">
         <button
-          className="rankingsButton"
+          className="settingsButton"
           style={{
             backgroundColor: themeColors.background,
             color: themeColors.text,
           }}
           onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
         >
-          <Trophy size={32} />
+          <Trophy color={themeColors.text} />
         </button>
-        {rankingsModalOpen && (
-          <Scores
-            onClose={() => setRankingsModalOpen(false)}
-            themeColors={themeColors}
-          />
-        )}
+
         <button
-          className="settingsButton"
+          className="rankingsButton"
           onClick={() => setModalSettingsOpen(true)}
         >
           <Gear color={themeColors.text} />
@@ -65,6 +60,13 @@ function App() {
       </div>
 
       <Simon themeColors={themeColors} soundsEnabled={soundsEnabled} />
+
+      {rankingsModalOpen && (
+          <Scores
+              onClose={() => setRankingsModalOpen(false)}
+              themeColors={themeColors}
+          />
+      )}
 
       {modalSettingsOpen && (
         <SettingsModal

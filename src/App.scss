@@ -23,9 +23,6 @@
 }
 
 .settingsButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: transparent;
   border: none;
   font-size: 24px;
@@ -38,15 +35,22 @@
 }
 
 .rankingsButton {
+  background: transparent;
   border: none;
+  font-size: 24px;
   cursor: pointer;
-  transition: 0.2s ease-in-out;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: rotate(30deg);
+  }
 }
 
 .menu {
   display: flex;
-  align-self: flex-end;
-  margin-right: 20px;
-  gap: 8px;
-  margin-top: 20px;
+  gap: 15px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
 }
