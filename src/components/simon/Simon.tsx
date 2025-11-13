@@ -16,6 +16,23 @@ interface SimonProps {
 
 const colors: Color[] = ["red", "blue", "green", "yellow"];
 
+const canVibrate = () => {
+  if (!("vibrate" in navigator)) {
+    console.log("Vibration non supportée par ce navigateur.");
+    return false;
+  }
+
+  const ua = navigator.userAgent;
+  const isIOS = /iPad|iPhone|iPod/.test(ua);
+  const isMobile = /Mobi|Android/i.test(ua);
+  const result = isMobile && !isIOS;
+
+  console.log(
+    `Vibrations ${result ? "activées (Android)" : "désactivées (PC ou iOS)"}`
+  );
+  return result;
+};
+
 function Simon({ themeColors, soundsEnabled }: SimonProps) {
   const [notificationGranted, setNotificationGranted] = useState(false);
   const [colorsSequence, setColorsSequence] = useState<Color[]>([]);
@@ -68,7 +85,8 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
       const showColor = () => {
         if (index < colorsSequence.length) {
           setActiveColor(colorsSequence[index]);
-          navigator.vibrate(200);
+
+          if (canVibrate()) navigator.vibrate(200);
 
           setTimeout(() => {
             setActiveColor(null);
@@ -106,7 +124,8 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
   const handleClickButton = useCallback(
     (color: Color) => {
       playSound(colorSounds[color]);
-      navigator.vibrate(500);
+
+      if (canVibrate()) navigator.vibrate(500);
 
       if (colorsSequence[colorIndex] === color) {
         setColorIndex(colorIndex + 1);
@@ -119,7 +138,10 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
             const raw = localStorage.getItem(key);
             const list = raw ? JSON.parse(raw) : [];
             const normalized = Array.isArray(list) ? list : [];
-            const entry = { score: gameTurnWon, date: new Date().toISOString() };
+            const entry = {
+              score: gameTurnWon,
+              date: new Date().toISOString(),
+            };
             normalized.push(entry);
             localStorage.setItem(key, JSON.stringify(normalized));
             try {
@@ -194,7 +216,7 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
       </div>
       {isGameRunning ? (
         isPlayerTurn ? (
-          <p className="textGame">A toi de jouer, reproduis la séquence</p>
+          <p className="textGame">À toi de jouer, reproduis la séquence</p>
         ) : (
           <p className="textGame">Observe bien la séquence</p>
         )
