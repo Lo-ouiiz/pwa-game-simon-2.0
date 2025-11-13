@@ -24,7 +24,7 @@ function SettingsModal({
   setModalSettingsOpen,
   soundsEnabled,
   setSoundsEnabled,
-}: SettingsModalProps) {
+}: Readonly<SettingsModalProps>) {
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
 
@@ -48,6 +48,15 @@ function SettingsModal({
     }
 
     setCustomThemeColors(newColors);
+  };
+
+  const deleteScoreHandle = () => {
+    localStorage.removeItem("scores");
+    navigator.serviceWorker.ready.then((registration) => {
+      registration.showNotification("Perdu !", {
+        body: "Scores supprimés avec succès !",
+      });
+    });
   };
 
   const colorLabels: Record<keyof ThemeColors, string> = {
@@ -189,6 +198,21 @@ function SettingsModal({
             </div>
             <span>{soundsEnabled ? "Activés" : "Désactivés"}</span>
           </div>
+        </div>
+
+        <div className="modalBody">
+          <button
+            onClick={deleteScoreHandle}
+            style={{
+              backgroundColor: themeColors.text,
+              color: themeColors.background,
+              border: `2px solid ${themeColors.text}`,
+              padding: "10px 20px",
+              cursor: "pointer",
+            }}
+          >
+            Supprimer mes scores
+          </button>
         </div>
       </div>
     </div>
