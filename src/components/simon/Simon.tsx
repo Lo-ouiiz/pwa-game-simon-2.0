@@ -66,7 +66,7 @@ function Simon() {
             const showColor = () => {
                 if (index < colorsSequence.length) {
                     setActiveColor(colorsSequence[index]);
-                    //navigator.vibrate(200);
+                    navigator.vibrate(200);
 
                     setTimeout(() => {
                         setActiveColor(null);
@@ -108,7 +108,7 @@ function Simon() {
     const handleClickButton = useCallback(
         (color: Color) => {
             playSound(colorSounds[color]);
-            //navigator.vibrate(500);
+            navigator.vibrate(500);
 
             if (colorsSequence[colorIndex] === color) {
                 setColorIndex(colorIndex + 1);
