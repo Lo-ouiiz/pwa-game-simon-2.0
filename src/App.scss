@@ -12,6 +12,7 @@
 }
 
 .app {
+  min-height: 100vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -22,6 +23,8 @@
 }
 
 .settingsButton {
+  position: absolute;
+  top: 10px;
   right: 10px;
   background: transparent;
   border: none;
@@ -36,7 +39,6 @@
 
 .rankingsButton {
   border: none;
-  margin-right: 10px;
   cursor: pointer;
   transition: 0.2s ease-in-out;
 }

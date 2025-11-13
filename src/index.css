@@ -6,6 +6,7 @@ body {
   display: flex;
   place-items: center;
   width: 100vw;
+  min-height: 100vh;
 }
 
 button {
@@ -20,14 +21,4 @@ select {
   font-family: "Outfit", Avenir, Helvetica, Arial, sans-serif;
   font-weight: 500;
   margin: 0;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-ul, ol {
-  list-style: none;
 }
