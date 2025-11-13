@@ -113,21 +113,23 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
       } else {
         playSound(gameOverSound);
         setIsGameRunning(false);
-        try {
-          const key = "scores";
-          const raw = localStorage.getItem(key);
-          const list = raw ? JSON.parse(raw) : [];
-          const normalized = Array.isArray(list) ? list : [];
-          const entry = { score: gameTurnWon, date: new Date().toISOString() };
-          normalized.push(entry);
-          localStorage.setItem(key, JSON.stringify(normalized));
+        if (gameTurnWon >= 1) {
           try {
-            globalThis.dispatchEvent(new Event("scoresUpdated"));
+            const key = "scores";
+            const raw = localStorage.getItem(key);
+            const list = raw ? JSON.parse(raw) : [];
+            const normalized = Array.isArray(list) ? list : [];
+            const entry = { score: gameTurnWon, date: new Date().toISOString() };
+            normalized.push(entry);
+            localStorage.setItem(key, JSON.stringify(normalized));
+            try {
+              globalThis.dispatchEvent(new Event("scoresUpdated"));
+            } catch (e) {
+              console.error("Failed to dispatch scoresUpdated", e);
+            }
           } catch (e) {
-            console.error("Failed to dispatch scoresUpdated", e);
+            console.error("Failed to save score to localStorage", e);
           }
-        } catch (e) {
-          console.error("Failed to save score to localStorage", e);
         }
 
         const text = `Ton score est de : ${gameTurnWon}. Pour rejouer, clique sur "Démarrer une partie"`;
