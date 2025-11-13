@@ -45,7 +45,6 @@ function App() {
           style={{
             backgroundColor: themeColors.background,
             color: themeColors.text,
-            border: `2px solid ${themeColors.text}`,
           }}
           onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
         >
