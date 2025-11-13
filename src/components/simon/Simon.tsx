@@ -13,16 +13,18 @@ function Simon({ theme }: SimonProps) {
   const themeColors: ThemeColors = themes[theme];
 
   const [notificationGranted, setNotificationGranted] = useState(false);
+
   const [colorsSequence, setColorsSequence] = useState<Color[]>([]);
   const [colorIndex, setColorIndex] = useState(0);
   const [activeColor, setActiveColor] = useState<Color | null>(null);
+
   const [isGameRunning, setIsGameRunning] = useState(false);
   const [isPlayerTurn, setIsPlayerTurn] = useState(false);
   const [gameTurnWon, setGameTurnWon] = useState(0);
 
   const [sequenceSpeed, setSequenceSpeed] = useState(1000);
 
-    const startSimon = useCallback(() => {
+  const startSimon = useCallback(() => {
     setIsGameRunning(true);
     setGameTurnWon(0);
     setSequenceSpeed(1000);
@@ -33,41 +35,42 @@ function Simon({ theme }: SimonProps) {
   }, []);
 
   useEffect(() => {
-    if (!("Notification" in window)) return;
+    if (!("Notification" in window)) {
+      console.log("This browser does not support notifications.");
+      return;
+    }
     Notification.requestPermission().then((result) => {
-      if (result === "granted") setNotificationGranted(true);
+      if (result === "granted") {
+        setNotificationGranted(true);
+      }
     });
   }, []);
 
-    useEffect(() => {
-        if (!isPlayerTurn && colorsSequence.length > 0) {
-            let index = 0;
+  useEffect(() => {
+    if (!isPlayerTurn && colorsSequence.length > 0) {
+      let index = 0;
 
       const showColor = () => {
         if (index < colorsSequence.length) {
           setActiveColor(colorsSequence[index]);
-          navigator.vibrate?.(500);
-            const showColor = () => {
-                if (index < colorsSequence.length) {
-                    setActiveColor(colorsSequence[index]);
-                    navigator.vibrate(200);
+          navigator.vibrate(200);
 
-                    setTimeout(() => {
-                        setActiveColor(null);
-                        index++;
-                    }, sequenceSpeed / 1.5);
+          setTimeout(() => {
+            setActiveColor(null);
+            index++;
+          }, sequenceSpeed / 1.5);
 
-                    setTimeout(() => {
-                        showColor();
-                    }, sequenceSpeed);
-                } else {
-                    setIsPlayerTurn(true);
-                }
-            };
-
+          setTimeout(() => {
             showColor();
+          }, sequenceSpeed);
+        } else {
+          setIsPlayerTurn(true);
         }
-    }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
+      };
+
+      showColor();
+    }
+  }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
 
   useEffect(() => {
     if (colorsSequence.length > 0) {
@@ -90,7 +93,7 @@ function Simon({ theme }: SimonProps) {
 
   const handleClickButton = useCallback(
     (color: Color) => {
-      navigator.vibrate?.(500);
+      navigator.vibrate(500);
 
       if (colorsSequence[colorIndex] === color) {
         setColorIndex((prev) => prev + 1);
@@ -148,8 +151,13 @@ function Simon({ theme }: SimonProps) {
           themeColors={themeColors}
         />
       </div>
-
-      {!isGameRunning && (
+      {isGameRunning ? (
+        isPlayerTurn ? (
+          <p className="textGame">A toi de jouer, reproduis la séquence</p>
+        ) : (
+          <p className="textGame">Observe bien la séquence</p>
+        )
+      ) : (
         <button
           className="startButton"
           onClick={startSimon}
