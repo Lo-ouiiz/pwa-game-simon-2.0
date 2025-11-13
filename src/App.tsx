@@ -3,9 +3,9 @@ import Simon from "./components/simon/Simon";
 import InstallButton from "./components/install-button/InstallButton";
 import { Theme, Mode, themes, ThemeColors } from "./variables/themes";
 import "./App.scss";
-import { Gear } from "phosphor-react";
+import { Gear, Trophy } from "phosphor-react";
+import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
-
 function App() {
   const getInitialTheme = (): Theme => {
     return (localStorage.getItem("theme") as Theme) || "classic";
@@ -43,6 +43,7 @@ function App() {
     getInitialCustomColors
   );
   const [modalSettingsOpen, setModalSettingsOpen] = useState(false);
+  const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -78,14 +79,34 @@ function App() {
     >
       <InstallButton />
 
-      <button
-        className="settingsButton"
-        onClick={() => setModalSettingsOpen(true)}
-      >
-        <Gear color={themeColors.text} />
-      </button>
+      <div className="menu">
+        <button
+          className="settingsButton"
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+          }}
+          onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
+        >
+          <Trophy color={themeColors.text} />
+        </button>
+
+        <button
+          className="rankingsButton"
+          onClick={() => setModalSettingsOpen(true)}
+        >
+          <Gear color={themeColors.text} />
+        </button>
+      </div>
 
       <Simon themeColors={themeColors} soundsEnabled={soundsEnabled} />
+
+      {rankingsModalOpen && (
+        <Scores
+          onClose={() => setRankingsModalOpen(false)}
+          themeColors={themeColors}
+        />
+      )}
 
       {modalSettingsOpen && (
         <SettingsModal

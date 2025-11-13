@@ -1,0 +1,126 @@
+.scoresContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    h2 {
+        margin: 0 0 8px 0;
+        font-size: 1.1rem;
+        color: var(--text);
+        text-align: center;
+    }
+
+    p {
+        color: rgba(0, 0, 0, 0.6);
+        text-align: center;
+        margin: 12px 0;
+    }
+
+    ol {
+        list-style-type: none;
+        padding: 0;
+        margin: 6px 0 0 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    li {
+        list-style-type: none !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 10px;
+        border-radius: 8px;
+        background: linear-gradient(180deg, rgba(245, 245, 245, 0.08), rgba(250, 250, 250, 0.04));
+        background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    .scoreBadge {
+        display: inline-block;
+        min-width: 48px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #0ea5a4;
+        color: white;
+        font-weight: 700;
+        text-align: center;
+        margin-right: 8px;
+    }
+
+    li strong {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 1rem;
+        color: #111;
+    }
+
+    li span {
+        color: var(--text);
+        font-size: 0.85rem;
+    }
+
+    li:nth-child(1) {
+        box-shadow: 0 8px 24px rgba(255, 215, 0, 0.08);
+        border-color: rgba(255, 215, 0, 0.12);
+    }
+
+    li:nth-child(2) {
+        box-shadow: 0 6px 18px rgba(192, 192, 192, 0.06);
+        border-color: rgba(192, 192, 192, 0.12);
+    }
+
+    li:nth-child(3) {
+        box-shadow: 0 4px 12px rgba(205, 127, 50, 0.06);
+        border-color: rgba(205, 127, 50, 0.1);
+    }
+
+    .medal {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        font-size: 16px;
+        margin-right: 32px;
+    }
+
+    .medal-1 {
+        background: linear-gradient(180deg, rgba(var(--text-r), var(--text-g), var(--text-b), 0.16), rgba(var(--text-r), var(--text-g), var(--text-b), 0.06));
+        background-blend-mode: overlay;
+    }
+
+    .medal-2 {
+        background: linear-gradient(180deg, rgba(var(--text-r), var(--text-g), var(--text-b), 0.12), rgba(var(--text-r), var(--text-g), var(--text-b), 0.04));
+        background-blend-mode: overlay;
+    }
+
+    .medal-3 {
+        background: linear-gradient(180deg, rgba(var(--text-r), var(--text-g), var(--text-b), 0.12), rgba(var(--text-r), var(--text-g), var(--text-b), 0.05));
+        background-blend-mode: overlay;
+    }
+
+    .closeButton {
+        color: var(--text);
+    }
+
+    .scoreValue {
+        font-weight: 700;
+        color: var(--text);
+        display: inline-block;
+        justify-content: center;
+    }
+
+    .modalContent {
+        background: var(--bg);
+    }
+}
