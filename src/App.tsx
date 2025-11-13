@@ -6,6 +6,7 @@ import "./App.scss";
 import { Gear, Trophy } from "phosphor-react";
 import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
+
 function App() {
   const getInitialTheme = (): Theme => {
     return (localStorage.getItem("theme") as Theme) || "classic";
@@ -44,6 +45,7 @@ function App() {
   );
   const [modalSettingsOpen, setModalSettingsOpen] = useState(false);
   const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
+  const [bestScore, setBestScore] = useState<number | null>(null);
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
@@ -65,6 +67,37 @@ function App() {
       );
     }
   }, [customThemeColors, theme]);
+
+  useEffect(() => {
+    const updateBestScore = () => {
+      try {
+        const raw = localStorage.getItem("scores");
+        if (raw) {
+          const parsed: { score: number }[] = JSON.parse(raw);
+          if (parsed.length > 0) {
+            const max = Math.max(...parsed.map((s) => s.score));
+            setBestScore(max);
+          } else {
+            setBestScore(null);
+          }
+        } else {
+          setBestScore(null);
+        }
+      } catch (e) {
+        console.error("Impossible de lire les scores depuis localStorage", e);
+        setBestScore(null);
+      }
+    };
+
+    updateBestScore();
+
+    const handler = () => updateBestScore();
+    globalThis.addEventListener("scoresUpdated", handler);
+
+    return () => {
+      globalThis.removeEventListener("scoresUpdated", handler);
+    };
+  }, []);
 
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
@@ -98,6 +131,14 @@ function App() {
           <Gear color={themeColors.text} />
         </button>
       </div>
+
+      <h1>Jeu du Simon</h1>
+
+      {bestScore !== null && (
+        <span className="bestScore">
+          Meilleur score : {bestScore} {bestScore > 1 ? "points" : "point"}
+        </span>
+      )}
 
       <Simon themeColors={themeColors} soundsEnabled={soundsEnabled} />
 

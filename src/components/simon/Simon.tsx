@@ -177,7 +177,6 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
 
   return (
     <div className="mainContainer">
-      <h1>Jeu du Simon</h1>
       <div className="containerButtons">
         <Tile
           color="red"
