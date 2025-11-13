@@ -22,3 +22,9 @@ select {
   font-weight: 500;
   margin: 0;
 }
+
+h1,
+h2,
+h3 {
+  margin-top: 0;
+}
