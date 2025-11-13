@@ -20,14 +20,24 @@ export default function Scores() {
           }))
         : [];
 
-      // trier par score décroissant, puis par date (plus récent en premier)
       list.sort((a, b) => {
         if (b.score !== a.score) return b.score - a.score;
         if (a.date && b.date) return b.date < a.date ? 1 : -1;
         return 0;
       });
 
-      setScores(list.slice(0, 10));
+      // Garder uniquement les scores distincts (par valeur) et limiter à 5
+      const unique: ScoreEntry[] = [];
+      const seen = new Set<number>();
+      for (const item of list) {
+        if (!seen.has(item.score)) {
+          seen.add(item.score);
+          unique.push(item);
+        }
+        if (unique.length >= 5) break;
+      }
+
+      setScores(unique);
     } catch (e) {
       console.error("Impossible de lire les scores depuis localStorage", e);
       setScores([]);
@@ -38,7 +48,6 @@ export default function Scores() {
     loadScores();
   }, [loadScores]);
 
-  // Reload scores when another component notifies that scores changed
   useEffect(() => {
     const onScoresUpdated = () => loadScores();
     globalThis.addEventListener("scoresUpdated", onScoresUpdated);
@@ -46,26 +55,30 @@ export default function Scores() {
       globalThis.removeEventListener("scoresUpdated", onScoresUpdated);
   }, [loadScores]);
 
-  const formatDate = (d?: string) => {
-    if (!d) return "-";
-    const dt = new Date(d);
-    if (Number.isNaN(dt.getTime())) return d;
-    return dt.toLocaleString();
-  };
 
   return (
     <div className="scoresContainer">
-      <h2>Top 10 — tes meilleurs scores</h2>
+      <h2>Top 5 — tes meilleurs scores</h2>
       {scores.length === 0 ? (
         <p>Aucun score enregistré pour le moment.</p>
       ) : (
         <ol>
-          {scores.map((s, idx) => (
-            <li key={s.date ? `${s.score}-${s.date}` : `${s.score}-${idx}`}>
-              <strong>{s.score}</strong>
-              <span> — {formatDate(s.date)}</span>
-            </li>
-          ))}
+          {scores.map((s, idx) => {
+            let medal: string | null = (idx + 1).toString();
+            if (idx === 0) medal = "🥇";
+            else if (idx === 1) medal = "🥈";
+            else if (idx === 2) medal = "🥉";
+            return (
+              <li key={`${s.score}`}>
+                <strong>
+                  {medal ? (
+                    <span className={`medal medal-${idx + 1}`}>{medal}</span>
+                  ) : null}
+                  <span className="scoreValue">{s.score}</span>
+                </strong>
+              </li>
+            );
+          })}
         </ol>
       )}
     </div>

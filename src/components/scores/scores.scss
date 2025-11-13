@@ -45,7 +45,6 @@
         padding: 6px 10px;
         border-radius: 999px;
         background: #0ea5a4;
-        /* teal-ish */
         color: white;
         font-weight: 700;
         text-align: center;
@@ -65,7 +64,6 @@
         font-size: 0.85rem;
     }
 
-    /* highlight top 3 */
     li:nth-child(1) {
         box-shadow: 0 8px 24px rgba(14, 165, 164, 0.08);
         border-color: rgba(14, 165, 164, 0.15);
@@ -81,7 +79,39 @@
         border-color: rgba(250, 204, 21, 0.1);
     }
 
+    .medal {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        font-size: 16px;
+        margin-right: 32px;
+    }
+
+    .medal-1 {
+        background: linear-gradient(180deg, #ffd24d, #ffb700);
+    }
+
+    .medal-2 {
+        background: linear-gradient(180deg, #e6e6e6, #bdbdbd);
+    }
+
+    .medal-3 {
+        background: linear-gradient(180deg, #d7b89a, #b8845a);
+    }
+
+    .scoreValue {
+        font-weight: 700;
+        color: #111;
+    }
+
     @media (min-width: 720px) {
         max-width: 520px;
+
+        .medal {
+            margin-right: 48px;
+        }
     }
 }
