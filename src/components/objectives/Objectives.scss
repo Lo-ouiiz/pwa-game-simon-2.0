@@ -67,6 +67,10 @@
 
       &.completed {
         background-color: rgba(var(--text-r, 17), var(--text-g, 17), var(--text-b, 17), 0.1);
+
+        .objectiveTitle {
+          text-decoration: line-through;
+        }
       }
 
       .objectiveIcon {
