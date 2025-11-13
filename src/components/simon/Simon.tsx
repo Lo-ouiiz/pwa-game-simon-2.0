@@ -87,7 +87,38 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
     if (colorsSequence.length > 0) {
       if (colorIndex === colorsSequence.length) {
         playSound(victorySound);
-        setGameTurnWon(gameTurnWon + 1);
+        const newScore = gameTurnWon + 1;
+        setGameTurnWon(newScore);
+        
+        const completedObjectivesKey = "completedObjectives";
+        const completedRaw = localStorage.getItem(completedObjectivesKey);
+        const completedObjectives = completedRaw ? JSON.parse(completedRaw) : [];
+        
+        const objectives = [
+          { target: 5, title: "5 coups réussis à la suite" },
+          { target: 10, title: "10 coups réussis à la suite" },
+          { target: 20, title: "20 coups réussis à la suite" },
+        ];
+        
+        let objectiveCompleted = false;
+        for (const obj of objectives) {
+          if (newScore === obj.target && !completedObjectives.includes(obj.target)) {
+            objectiveCompleted = true;
+            completedObjectives.push(obj.target);
+            localStorage.setItem(completedObjectivesKey, JSON.stringify(completedObjectives));
+            
+            const objectiveText = `Félicitations ! Objectif débloqué : ${obj.title} !`;
+            if (notificationGranted) {
+              navigator.serviceWorker.ready.then((registration) => {
+                registration.showNotification("Objectif atteint !", { body: objectiveText });
+              });
+            } else {
+              alert(objectiveText);
+            }
+            break;
+          }
+        }
+        
         setColorsSequence((prevSequence) => [
           ...prevSequence,
           colors[Math.floor(Math.random() * colors.length)],
@@ -98,10 +129,10 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
         setTimeout(() => {
           setColorIndex(0);
           setIsPlayerTurn(false);
-        }, 2000);
+        }, objectiveCompleted ? 3000 : 2000);
       }
     }
-  }, [colorsSequence, colorIndex, gameTurnWon]);
+  }, [colorsSequence, colorIndex, gameTurnWon, notificationGranted]);
 
   const handleClickButton = useCallback(
     (color: Color) => {
@@ -122,6 +153,7 @@ function Simon({ themeColors, soundsEnabled }: SimonProps) {
             const entry = { score: gameTurnWon, date: new Date().toISOString() };
             normalized.push(entry);
             localStorage.setItem(key, JSON.stringify(normalized));
+            
             try {
               globalThis.dispatchEvent(new Event("scoresUpdated"));
             } catch (e) {

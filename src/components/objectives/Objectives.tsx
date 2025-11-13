@@ -42,10 +42,13 @@ export default function Objectives({
         
         const maxScore = scores.length > 0 ? Math.max(...scores) : 0;
 
+        const completedRaw = localStorage.getItem("completedObjectives");
+        const completedTargets = completedRaw ? JSON.parse(completedRaw) : [];
+
         setObjectives((prev) =>
           prev.map((obj) => ({
             ...obj,
-            completed: maxScore >= obj.target,
+            completed: maxScore >= obj.target || completedTargets.includes(obj.target),
           }))
         );
       } catch (e) {
