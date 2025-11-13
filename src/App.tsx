@@ -3,9 +3,10 @@ import Simon from "./components/simon/Simon";
 import InstallButton from "./components/install-button/InstallButton";
 import { Theme, Mode, themes, ThemeColors } from "./variables/themes";
 import "./App.scss";
-import { Gear, Trophy } from "phosphor-react";
+import { Gear, Trophy, Target } from "phosphor-react";
 import Scores from "./components/scores/scores";
 import SettingsModal from "./components/settings-modal/SettingsModal";
+import Objectives from "./components/objectives/Objectives";
 
 function App() {
   const getInitialTheme = (): Theme => {
@@ -45,6 +46,7 @@ function App() {
   );
   const [modalSettingsOpen, setModalSettingsOpen] = useState(false);
   const [rankingsModalOpen, setRankingsModalOpen] = useState(false);
+  const [objectivesModalOpen, setObjectivesModalOpen] = useState(false);
   const [bestScore, setBestScore] = useState<number | null>(null);
 
   useEffect(() => {
@@ -125,6 +127,17 @@ function App() {
         </button>
 
         <button
+          className="objectivesButton"
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+          }}
+          onClick={() => setObjectivesModalOpen(!objectivesModalOpen)}
+        >
+          <Target color={themeColors.text} />
+        </button>
+
+        <button
           className="rankingsButton"
           onClick={() => setModalSettingsOpen(true)}
         >
@@ -145,6 +158,13 @@ function App() {
       {rankingsModalOpen && (
         <Scores
           onClose={() => setRankingsModalOpen(false)}
+          themeColors={themeColors}
+        />
+      )}
+
+      {objectivesModalOpen && (
+        <Objectives
+          onClose={() => setObjectivesModalOpen(false)}
           themeColors={themeColors}
         />
       )}
