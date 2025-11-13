@@ -1,6 +1,7 @@
 import { Mode, Theme, themes, ThemeColors } from "../../variables/themes";
 import { X } from "phosphor-react";
 import "./SettingsModal.scss";
+import { useEffect, useState } from "react";
 
 interface SettingsModalProps {
   theme: Theme;
@@ -24,7 +25,21 @@ function SettingsModal({
   setModalSettingsOpen,
   soundsEnabled,
   setSoundsEnabled,
-}: SettingsModalProps) {
+}: Readonly<SettingsModalProps>) {
+  const [notificationGranted, setNotificationGranted] = useState(false);
+
+  useEffect(() => {
+    if (!("Notification" in window)) {
+      console.log("This browser does not support notifications.");
+      return;
+    }
+    Notification.requestPermission().then((result) => {
+      if (result === "granted") {
+        setNotificationGranted(true);
+      }
+    });
+  }, []);
+
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
 
@@ -48,6 +63,19 @@ function SettingsModal({
     }
 
     setCustomThemeColors(newColors);
+  };
+
+  const deleteCache = async () => {
+    const text = "Vos scores ont été supprimés.";
+    localStorage.removeItem("scores");
+    localStorage.removeItem("completedObjectives");
+    if (notificationGranted) {
+      navigator.serviceWorker.ready.then((registration) => {
+        registration.showNotification("Scores supprimés !", { body: text });
+      });
+    } else {
+      alert("Scores supprimés ! " + text);
+    }
   };
 
   const colorLabels: Record<keyof ThemeColors, string> = {
@@ -189,6 +217,19 @@ function SettingsModal({
             </div>
             <span>{soundsEnabled ? "Activés" : "Désactivés"}</span>
           </div>
+        </div>
+
+        <div className="modalBody">
+          <button
+            onClick={deleteCache}
+            style={{
+              backgroundColor: themeColors.background,
+              color: themeColors.text,
+              border: `2px solid ${themeColors.text}`,
+            }}
+          >
+            Supprimer mes données
+          </button>
         </div>
       </div>
     </div>
