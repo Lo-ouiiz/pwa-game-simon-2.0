@@ -3,6 +3,10 @@ import "./Simon.scss";
 import Tile from "./tile/Tile";
 import victorySound from "../../assets/sounds/victory.mp3";
 import gameOverSound from "../../assets/sounds/gameover.mp3";
+import redSound from "../../assets/sounds/red.mp3";
+import blueSound from "../../assets/sounds/blue.mp3";
+import greenSound from "../../assets/sounds/green.mp3";
+import yellowSound from "../../assets/sounds/yellow.mp3";
 
 export type Color = "red" | "blue" | "green" | "yellow";
 
@@ -20,6 +24,13 @@ function Simon() {
     const [gameTurnWon, setGameTurnWon] = useState(0);
 
     const [sequenceSpeed, setSequenceSpeed] = useState(1000);
+
+    const colorSounds: Record<Color, string> = {
+        red: redSound,
+        blue: blueSound,
+        green: greenSound,
+        yellow: yellowSound,
+    };
 
     const playSound = (soundPath: string) => {
         const audio = new Audio(soundPath);
@@ -55,7 +66,7 @@ function Simon() {
             const showColor = () => {
                 if (index < colorsSequence.length) {
                     setActiveColor(colorsSequence[index]);
-                    navigator.vibrate(200);
+                    //navigator.vibrate(200);
 
                     setTimeout(() => {
                         setActiveColor(null);
@@ -77,6 +88,7 @@ function Simon() {
     useEffect(() => {
         if (colorsSequence.length > 0) {
             if (colorIndex === colorsSequence.length) {
+                playSound(victorySound);
                 setGameTurnWon(gameTurnWon + 1);
                 setColorsSequence((prevSequence) => [
                     ...prevSequence,
@@ -95,10 +107,10 @@ function Simon() {
 
     const handleClickButton = useCallback(
         (color: Color) => {
-            navigator.vibrate(500);
+            playSound(colorSounds[color]);
+            //navigator.vibrate(500);
 
             if (colorsSequence[colorIndex] === color) {
-                playSound(victorySound);
                 setColorIndex(colorIndex + 1);
             } else {
                 playSound(gameOverSound);
