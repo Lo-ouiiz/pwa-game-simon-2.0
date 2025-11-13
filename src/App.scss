@@ -22,11 +22,7 @@
   transition: background-color 0.3s, color 0.3s;
 }
 
-/* Bouton paramètres */
 .settingsButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
   background: transparent;
   border: none;
   font-size: 24px;
@@ -36,4 +32,25 @@
   &:hover {
     transform: rotate(30deg);
   }
+}
+
+.rankingsButton {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: rotate(30deg);
+  }
+}
+
+.menu {
+  display: flex;
+  gap: 15px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
 }
