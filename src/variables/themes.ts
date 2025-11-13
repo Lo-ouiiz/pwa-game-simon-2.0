@@ -1,5 +1,5 @@
 export type Color = "red" | "blue" | "green" | "yellow";
-export type Theme = "classic" | "neon" | "pastel";
+export type Theme = "classic" | "neon" | "pastel" | "custom";
 export type Mode = "light" | "dark";
 
 export interface ThemeColors {
@@ -15,7 +15,10 @@ export interface ThemeColors {
   text: string;
 }
 
-export const themes: Record<Theme, Record<Mode, ThemeColors>> = {
+export const themes: Record<
+  Exclude<Theme, "custom">,
+  Record<Mode, ThemeColors>
+> = {
   classic: {
     light: {
       red: "#941414",
