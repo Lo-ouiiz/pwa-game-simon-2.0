@@ -10,8 +10,8 @@ export interface ThemeColors {
   greenActive: string;
   yellow: string;
   yellowActive: string;
-  background: string; // couleur de fond
-  text: string; // couleur du texte
+  background: string;
+  text: string;
 }
 
 export const themes: Record<Theme, ThemeColors> = {
@@ -24,31 +24,31 @@ export const themes: Record<Theme, ThemeColors> = {
     greenActive: "#44ac1b",
     yellow: "#b9a700",
     yellowActive: "#ffe920",
-    background: "#f0f0f0",
-    text: "#000000",
+    background: "#ffeeeeff",
+    text: "#141414ff",
   },
   neon: {
-    red: "#ff073a",
-    redActive: "#ff4c6d",
-    blue: "#00ffff",
-    blueActive: "#66ffff",
-    green: "#00ff00",
-    greenActive: "#66ff66",
-    yellow: "#ffff00",
-    yellowActive: "#ffff66",
-    background: "#0a0a0a",
+    red: "#f52789",
+    redActive: "#ff87c1ff",
+    blue: "#1685f8",
+    blueActive: "#81beffff",
+    green: "#e900ff",
+    greenActive: "#f481ffff",
+    yellow: "#faeb2c",
+    yellowActive: "#fff678ff",
+    background: "#3d144c",
     text: "#ffffff",
   },
   pastel: {
-    red: "#f5a1a1",
-    redActive: "#f7c1c1",
-    blue: "#a1d4f5",
-    blueActive: "#c1e4f7",
-    green: "#a1f5a9",
-    greenActive: "#c1f7c1",
-    yellow: "#f5f3a1",
-    yellowActive: "#f7f6c1",
-    background: "#fff5f0",
-    text: "#333333",
+    red: "#ffcbe1",
+    redActive: "#ffafd1ff",
+    blue: "#bcd8ec",
+    blueActive: "#a2cdecff",
+    green: "#d6e5bd",
+    greenActive: "#c8e49dff",
+    yellow: "#f9e1a8",
+    yellowActive: "#f8d687ff",
+    background: "#f8f2ef",
+    text: "#7f6896ff",
   },
 };
