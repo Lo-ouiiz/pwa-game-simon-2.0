@@ -1,12 +1,17 @@
 import { useCallback, useEffect, useState } from "react";
-import "./Simon.scss";
 import Tile from "./tile/Tile";
+import "./Simon.scss";
+import { Color, Theme, themes, ThemeColors } from "../../variables/themes";
 
-export type Color = "red" | "blue" | "green" | "yellow";
+interface SimonProps {
+  theme: Theme;
+}
 
 const colors: Color[] = ["red", "blue", "green", "yellow"];
 
-function Simon() {
+function Simon({ theme }: SimonProps) {
+  const themeColors: ThemeColors = themes[theme];
+
   const [notificationGranted, setNotificationGranted] = useState(false);
 
   const [colorsSequence, setColorsSequence] = useState<Color[]>([]);
@@ -19,7 +24,7 @@ function Simon() {
 
   const [sequenceSpeed, setSequenceSpeed] = useState(1000);
 
-    const startSimon = useCallback(() => {
+  const startSimon = useCallback(() => {
     setIsGameRunning(true);
     setGameTurnWon(0);
     setSequenceSpeed(1000);
@@ -41,31 +46,31 @@ function Simon() {
     });
   }, []);
 
-    useEffect(() => {
-        if (!isPlayerTurn && colorsSequence.length > 0) {
-            let index = 0;
+  useEffect(() => {
+    if (!isPlayerTurn && colorsSequence.length > 0) {
+      let index = 0;
 
-            const showColor = () => {
-                if (index < colorsSequence.length) {
-                    setActiveColor(colorsSequence[index]);
-                    navigator.vibrate(200);
+      const showColor = () => {
+        if (index < colorsSequence.length) {
+          setActiveColor(colorsSequence[index]);
+          navigator.vibrate(200);
 
-                    setTimeout(() => {
-                        setActiveColor(null);
-                        index++;
-                    }, sequenceSpeed / 1.5);
+          setTimeout(() => {
+            setActiveColor(null);
+            index++;
+          }, sequenceSpeed / 1.5);
 
-                    setTimeout(() => {
-                        showColor();
-                    }, sequenceSpeed);
-                } else {
-                    setIsPlayerTurn(true);
-                }
-            };
-
+          setTimeout(() => {
             showColor();
+          }, sequenceSpeed);
+        } else {
+          setIsPlayerTurn(true);
         }
-    }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
+      };
+
+      showColor();
+    }
+  }, [colorsSequence, isPlayerTurn, sequenceSpeed]);
 
   useEffect(() => {
     if (colorsSequence.length > 0) {
@@ -91,15 +96,13 @@ function Simon() {
       navigator.vibrate(500);
 
       if (colorsSequence[colorIndex] === color) {
-        setColorIndex(colorIndex + 1);
+        setColorIndex((prev) => prev + 1);
       } else {
         setIsGameRunning(false);
-        const text = `Ton score est de : ${gameTurnWon} Pour rejouer, clique sur "Démarrer une partie"`;
+        const text = `Ton score est de : ${gameTurnWon}. Pour rejouer, clique sur "Démarrer une partie"`;
         if (notificationGranted) {
           navigator.serviceWorker.ready.then((registration) => {
-            registration.showNotification("Perdu !", {
-              body: text,
-            });
+            registration.showNotification("Perdu !", { body: text });
           });
         } else {
           alert("Perdu ! " + text);
@@ -119,6 +122,7 @@ function Simon() {
           isGameRunning={isGameRunning}
           isPlayerTurn={isPlayerTurn}
           onClick={handleClickButton}
+          themeColors={themeColors}
         />
         <Tile
           color="blue"
@@ -126,6 +130,7 @@ function Simon() {
           isGameRunning={isGameRunning}
           isPlayerTurn={isPlayerTurn}
           onClick={handleClickButton}
+          themeColors={themeColors}
         />
       </div>
       <div className="containerButtons">
@@ -135,6 +140,7 @@ function Simon() {
           isGameRunning={isGameRunning}
           isPlayerTurn={isPlayerTurn}
           onClick={handleClickButton}
+          themeColors={themeColors}
         />
         <Tile
           color="yellow"
@@ -142,6 +148,7 @@ function Simon() {
           isGameRunning={isGameRunning}
           isPlayerTurn={isPlayerTurn}
           onClick={handleClickButton}
+          themeColors={themeColors}
         />
       </div>
       {isGameRunning ? (
@@ -151,7 +158,15 @@ function Simon() {
           <p className="textGame">Observe bien la séquence</p>
         )
       ) : (
-        <button className="startButton" onClick={startSimon}>
+        <button
+          className="startButton"
+          onClick={startSimon}
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+            border: `2px solid ${themeColors.text}`,
+          }}
+        >
           Démarrer une partie
         </button>
       )}
