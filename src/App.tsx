@@ -117,10 +117,6 @@ function App() {
       <div className="menu">
         <button
           className="settingsButton"
-          style={{
-            backgroundColor: themeColors.background,
-            color: themeColors.text,
-          }}
           onClick={() => setRankingsModalOpen(!rankingsModalOpen)}
         >
           <Trophy color={themeColors.text} />
@@ -128,10 +124,6 @@ function App() {
 
         <button
           className="objectivesButton"
-          style={{
-            backgroundColor: themeColors.background,
-            color: themeColors.text,
-          }}
           onClick={() => setObjectivesModalOpen(!objectivesModalOpen)}
         >
           <Target color={themeColors.text} />

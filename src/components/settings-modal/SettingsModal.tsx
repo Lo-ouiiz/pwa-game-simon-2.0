@@ -1,5 +1,5 @@
 import { Mode, Theme, themes, ThemeColors } from "../../variables/themes";
-import { X } from "phosphor-react";
+import { XCircle } from "phosphor-react";
 import "./SettingsModal.scss";
 import { useState } from "react";
 
@@ -99,7 +99,7 @@ function SettingsModal({
             className="closeButton"
             onClick={() => setModalSettingsOpen(false)}
           >
-            <X color={themeColors.text} weight="bold" />
+            <XCircle size={32} />
           </button>
         </div>
 
@@ -205,10 +205,10 @@ function SettingsModal({
           <button
             onClick={deleteCache}
             style={{
-              backgroundColor: themeColors.background,
-              color: themeColors.text,
+              '--btn-bg': themeColors.background,
+              '--btn-color': themeColors.text,
               border: `2px solid ${themeColors.text}`,
-            }}
+            } as React.CSSProperties}
           >
             Supprimer mes données
           </button>
