@@ -22,7 +22,7 @@ Chaque niveau ajoute une couleur à la séquence, demandant concentration, mémo
 Cette version améliorée intègre de nouvelles options de personnalisation, une meilleure accessibilité, de nouvelles mécaniques de jeu et une interface modernisée.
 
 ## 🚀 Démo
-Essayez la démo ici : [Simon Game](https://pwa-simon-game-2.vercel.app/)
+Essayez la démo ici : [Simon Game](https://pwa-game-simon-2.vercel.app/)
 
 ## 🛠️ Stack
 - **React** — Framework  

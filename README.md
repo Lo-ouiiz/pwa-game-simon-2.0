@@ -20,7 +20,7 @@ Each level adds one more color to the sequence, requiring focus, memorization, a
 This enhanced version integrates new customization options, improved accessibility, new gameplay mechanics, and a modernized interface.
 
 ## 🚀 Demo
-Try the demo here: [Simon Game](https://pwa-simon-game-2.vercel.app/)
+Try the demo here: [Simon Game](https://pwa-game-simon-2.vercel.app/)
 
 ## 🛠️ Stack
 - **React** — Framework  
