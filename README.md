@@ -1,46 +1,51 @@
 # Introduction
 
-[Read in French - 🇫🇷](README_FR.md)
-
-As a school project during my **first year of master's degree**, I developed a **Simon Game** as a **Progressive Web App (PWA)** using **React JS**.
+As part of a **project management course during our second year of Master's degree**, we had to improve and extend an existing project from the previous year.  
+For this assignment, our group chose to enhance the **Simon Game PWA** originally developed during another course.  
+This new version introduces significant improvements and new features.
 
 ## 📒 Index
-
 - [About](#🔰-about)
 - [Demo](#🚀-demo)
 - [Stack](#🛠️-stack)
 - [Features](#✨-features)
+- [New Features](#🆕-new-features)
 - [Timeline](#📅-timeline)
 - [Gallery](#📷-gallery)
 
 ## 🔰 About
+The Simon Game is a classic memory challenge where players must reproduce an increasingly complex sequence of colors.  
+Each level adds one more color to the sequence, requiring focus, memorization, and quick reaction.
 
-The Simon Game is a memory game where the user has to follow a sequence of colors that progressively becomes more complex. The goal is to correctly reproduce the sequence without making any mistakes, with increasing levels of difficulty.
+This enhanced version integrates new customization options, improved accessibility, new gameplay mechanics, and a modernized interface.
 
 ## 🚀 Demo
-
-Try the demo here: [Simon game](https://pwa-simon-game.vercel.app/)
+Try the demo here: [Simon Game](https://pwa-simon-game-2.vercel.app/)
 
 ## 🛠️ Stack
-
-- **React** - Framework
-- **Vite** - Build tool
-- **Sass** - Styling
+- **React** — Framework  
+- **Vite** — Build tool  
+- **Sass** — Styling  
 
 ## ✨ Features
+The core features of the Simon Game include:
+- **Color Sequences**: Randomly generated sequences the player must memorize and repeat.
+- **Difficulty Curve**: The sequence grows longer and more complex as the player progresses.
+- **Local Notifications**: Alerts the player when losing a game.
+- **Haptic Feedback**: Vibration effects on mobile during sequence playback for a better tactile experience.
 
-The app offers several features such as :
+## 🆕 New Features
+As part of the project management assignment, several major improvements were implemented:
+- **Theme Customization**: Ability to switch between predefined color themes or create a fully custom theme. Each theme supports both light and dark modes.  
+- **Enhanced Audio**: Sounds for each button, as well as victory and defeat feedback, with the option to disable all game sounds.  
+- **Dynamic Game Speed**: Progressive acceleration of the sequence playback as the player reaches higher levels.  
+- **High Score System**: A leaderboard to track and display the player's best performances.
+- **Player Objectives**: The game now includes specific objectives for the player to achieve, such as reaching certain levels or completing sequences without mistakes.
 
-- **Color Sequences**: The game generates a random sequence of colors that the user has to memorize and repeat.
-- **Difficulty Levels**: The more the user successfully reproduces the sequences, the harder the game becomes.
-- **Local Notification**: A local notification is displayed when the user loses the game, alerting them of the result.
-- **Vibration Effect**: A vibration occurs when the machine plays the color sequence, enhancing the user experience with haptic feedback.
 
 ## 📅 Timeline
-
-This project was completed in **March 2025** as a school project.
+This updated version of the project was completed at the end of **2025**.
 
 ## 📷 Gallery
-
-![App preview](./public/pwa-preview.png)
-![Game preview](./public/game-preview.png)
+![Game preview](./public/game-preview-neon-theme.png)
+![Playing game preview](./public/game-playing-preview-neon-theme.png)

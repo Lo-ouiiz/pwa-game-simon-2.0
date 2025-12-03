@@ -2,45 +2,51 @@
 
 [Read the original - 🇬🇧](README.md)
 
-Dans le cadre d'un projet scolaire de ma **première année de master**, j'ai développé un **Simon Game** sous forme d'une **Progressive Web App (PWA)** en utilisant **React JS**.
+Dans le cadre d’un **cours de management de projet lors de notre deuxième année de Master**, nous devions améliorer et enrichir un projet existant de l’année précédente.  
+Pour ce travail, notre groupe a choisi d’améliorer le **Simon Game PWA** développé initialement dans un autre cours.  
+Cette nouvelle version apporte des améliorations significatives et de nouvelles fonctionnalités.
 
 ## 📒 Index
-
 - [À propos](#🔰-à-propos)
 - [Démo](#🚀-démo)
-- [Technologies](#🛠️-technologies)
+- [Stack](#🛠️-stack)
 - [Fonctionnalités](#✨-fonctionnalités)
-- [Timeline](#📅-timeline)
+- [Nouvelles fonctionnalités](#🆕-nouvelles-fonctionnalités)
+- [Chronologie](#📅-chronologie)
 - [Galerie](#📷-galerie)
 
 ## 🔰 À propos
+Le Simon Game est un jeu classique de mémoire où le joueur doit reproduire une séquence de couleurs de plus en plus complexe.  
+Chaque niveau ajoute une couleur à la séquence, demandant concentration, mémorisation et rapidité de réaction.
 
-Le Simon Game est un jeu de mémoire où l'utilisateur doit suivre une séquence de couleurs qui devient progressivement plus complexe. L'objectif est de reproduire correctement la séquence sans faire d'erreurs, avec des niveaux de difficulté croissants.
+Cette version améliorée intègre de nouvelles options de personnalisation, une meilleure accessibilité, de nouvelles mécaniques de jeu et une interface modernisée.
 
 ## 🚀 Démo
+Essayez la démo ici : [Simon Game](https://pwa-simon-game-2.vercel.app/)
 
-Essaye la démo ici : [Simon Game](https://pwa-simon-game.vercel.app/)
-
-## 🛠️ Technologies
-
-- **React** - Framework
-- **Vite** - Outil de construction
-- **Sass** - Stylisation
+## 🛠️ Stack
+- **React** — Framework  
+- **Vite** — Outil de build  
+- **Sass** — Stylisation  
 
 ## ✨ Fonctionnalités
+Les fonctionnalités principales du Simon Game incluent :
+- **Séquences de couleurs** : Des séquences aléatoires que le joueur doit mémoriser et reproduire.  
+- **Courbe de difficulté** : La séquence devient plus longue et plus complexe à mesure que le joueur progresse.  
+- **Notifications locales** : Alertes lorsque le joueur perd une partie.  
+- **Retour haptique** : Effets de vibration sur mobile pendant la lecture des séquences pour une meilleure expérience tactile.  
 
-L'application offre plusieurs fonctionnalités telles que :
+## 🆕 Nouvelles fonctionnalités
+Dans le cadre de ce projet de management, plusieurs améliorations majeures ont été ajoutées :
+- **Personnalisation des thèmes** : Possibilité de choisir parmi des thèmes prédéfinis ou de créer un thème entièrement personnalisé. Chaque thème dispose de modes clair et sombre.  
+- **Audio amélioré** : Sons pour chaque touche, ainsi que pour les victoires et défaites, avec possibilité de désactiver tous les sons.  
+- **Vitesse de jeu dynamique** : Accélération progressive de la séquence à mesure que le joueur avance dans les niveaux.  
+- **Tableau des meilleurs scores** : Classement affichant les meilleures performances du joueur.  
+- **Objectifs du joueur** : Le jeu inclut maintenant des objectifs spécifiques à atteindre, comme atteindre certains niveaux ou compléter des séquences sans erreur.  
 
-- **Séquences de couleurs** : Le jeu génère une séquence aléatoire de couleurs que l'utilisateur doit mémoriser et répéter.
-- **Niveaux de difficulté** : Plus l'utilisateur réussit à reproduire les séquences, plus le jeu devient difficile.
-- **Notification locale** : Une notification locale est affichée lorsque l'utilisateur perd la partie, l'alertant du résultat.
-- **Effet de vibration** : Une vibration se déclenche lorsque la machine joue la séquence de couleurs, améliorant l'expérience utilisateur avec un retour haptique.
-
-## 📅 Timeline
-
-Ce projet a été réalisé en **mars 2025** dans le cadre d'un projet scolaire.
+## 📅 Chronologie
+Cette version améliorée du projet a été finalisée fin **2025**.
 
 ## 📷 Galerie
-
-![Aperçu de l'application](./public/pwa-preview.png)
-![Aperçu du jeu](./public/game-preview.png)
+![Aperçu du jeu](./public/game-preview-neon-theme.png)  
+![Aperçu du jeu en action](./public/game-playing-preview-neon-theme.png)
