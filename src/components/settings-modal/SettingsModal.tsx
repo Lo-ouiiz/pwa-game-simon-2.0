@@ -205,10 +205,10 @@ function SettingsModal({
           <button
             onClick={deleteCache}
             style={{
-              backgroundColor: themeColors.background,
-              color: themeColors.text,
+              '--btn-bg': themeColors.background,
+              '--btn-color': themeColors.text,
               border: `2px solid ${themeColors.text}`,
-            }}
+            } as React.CSSProperties}
           >
             Supprimer mes données
           </button>

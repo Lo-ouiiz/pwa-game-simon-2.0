@@ -19,16 +19,16 @@
 
 .buttonInstall {
   button {
-    background: #f0f0f0;
+    --btn-bg: #f0f0f0;
+    --btn-color: #0e0e0e;
+    --btn-border: transparent;
+    background: var(--btn-bg);
+    color: var(--btn-color);
     border: none;
     padding: 6px 10px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     cursor: pointer;
     transition: 0.2s ease-in-out;
-
-    &:hover {
-      background: #dadada;
-    }
   }
 }

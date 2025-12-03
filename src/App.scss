@@ -24,6 +24,7 @@
 
 .settingsButton {
   background: transparent;
+  color: currentColor;
   border: none;
   font-size: 24px;
   cursor: pointer;
@@ -31,11 +32,14 @@
 
   &:hover {
     transform: rotate(30deg);
+    background-color: transparent !important;
+    color: currentColor !important;
   }
 }
 
 .rankingsButton {
   background: transparent;
+  color: currentColor;
   border: none;
   font-size: 24px;
   cursor: pointer;
@@ -43,11 +47,14 @@
 
   &:hover {
     transform: rotate(30deg);
+    background-color: transparent !important;
+    color: currentColor !important;
   }
 }
 
 .objectivesButton {
   background: transparent;
+  color: currentColor;
   border: none;
   font-size: 24px;
   cursor: pointer;
@@ -55,6 +62,8 @@
 
   &:hover {
     transform: rotate(30deg);
+    background-color: transparent !important;
+    color: currentColor !important;
   }
 }
 

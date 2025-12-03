@@ -10,6 +10,11 @@
   }
 
   .startButton {
+    --btn-bg: var(--bg, #fff);
+    --btn-color: var(--text, #111);
+    --btn-border: transparent;
+    background-color: var(--btn-bg);
+    color: var(--btn-color);
     border: none;
     margin-top: 20px;
     padding: 6px 10px;
