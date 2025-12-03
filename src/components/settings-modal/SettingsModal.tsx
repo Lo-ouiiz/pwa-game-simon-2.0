@@ -1,7 +1,7 @@
 import { Mode, Theme, themes, ThemeColors } from "../../variables/themes";
 import { X } from "phosphor-react";
 import "./SettingsModal.scss";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SettingsModalProps {
   theme: Theme;
@@ -26,19 +26,7 @@ function SettingsModal({
   soundsEnabled,
   setSoundsEnabled,
 }: Readonly<SettingsModalProps>) {
-  const [notificationGranted, setNotificationGranted] = useState(false);
-
-  useEffect(() => {
-    if (!("Notification" in window)) {
-      console.log("This browser does not support notifications.");
-      return;
-    }
-    Notification.requestPermission().then((result) => {
-      if (result === "granted") {
-        setNotificationGranted(true);
-      }
-    });
-  }, []);
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
 
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
@@ -66,16 +54,10 @@ function SettingsModal({
   };
 
   const deleteCache = async () => {
-    const text = "Vos scores ont été supprimés.";
     localStorage.removeItem("scores");
     localStorage.removeItem("completedObjectives");
-    if (notificationGranted) {
-      navigator.serviceWorker.ready.then((registration) => {
-        registration.showNotification("Scores supprimés !", { body: text });
-      });
-    } else {
-      alert("Scores supprimés ! " + text);
-    }
+    setShowSuccessPopup(true);
+    setTimeout(() => setShowSuccessPopup(false), 3000);
   };
 
   const colorLabels: Record<keyof ThemeColors, string> = {
@@ -232,6 +214,19 @@ function SettingsModal({
           </button>
         </div>
       </div>
+
+      {showSuccessPopup && (
+        <div
+          className="successPopup"
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+            borderColor: themeColors.text,
+          }}
+        >
+          Données supprimées avec succès !
+        </div>
+      )}
     </div>
   );
 }
