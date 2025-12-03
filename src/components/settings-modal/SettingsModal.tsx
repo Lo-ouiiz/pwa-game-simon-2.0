@@ -1,6 +1,7 @@
 import { Mode, Theme, themes, ThemeColors } from "../../variables/themes";
 import { X } from "phosphor-react";
 import "./SettingsModal.scss";
+import { useState } from "react";
 
 interface SettingsModalProps {
   theme: Theme;
@@ -24,7 +25,9 @@ function SettingsModal({
   setModalSettingsOpen,
   soundsEnabled,
   setSoundsEnabled,
-}: SettingsModalProps) {
+}: Readonly<SettingsModalProps>) {
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+
   const themeColors =
     theme === "custom" ? customThemeColors : themes[theme][mode];
 
@@ -48,6 +51,13 @@ function SettingsModal({
     }
 
     setCustomThemeColors(newColors);
+  };
+
+  const deleteCache = async () => {
+    localStorage.removeItem("scores");
+    localStorage.removeItem("completedObjectives");
+    setShowSuccessPopup(true);
+    setTimeout(() => setShowSuccessPopup(false), 3000);
   };
 
   const colorLabels: Record<keyof ThemeColors, string> = {
@@ -190,7 +200,33 @@ function SettingsModal({
             <span>{soundsEnabled ? "Activés" : "Désactivés"}</span>
           </div>
         </div>
+
+        <div className="modalBody">
+          <button
+            onClick={deleteCache}
+            style={{
+              backgroundColor: themeColors.background,
+              color: themeColors.text,
+              border: `2px solid ${themeColors.text}`,
+            }}
+          >
+            Supprimer mes données
+          </button>
+        </div>
       </div>
+
+      {showSuccessPopup && (
+        <div
+          className="successPopup"
+          style={{
+            backgroundColor: themeColors.background,
+            color: themeColors.text,
+            borderColor: themeColors.text,
+          }}
+        >
+          Données supprimées avec succès !
+        </div>
+      )}
     </div>
   );
 }
